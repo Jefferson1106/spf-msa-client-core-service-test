@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: spf-msa-client-core-service
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/bdd_client_core_banco}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USER_NAME:postgres}
+    password: ${DB_PASSWORD:12345}
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 9090
+  servlet:
+    context-path: /spf-msa-client-core-service
+
+# Configuración para Docker
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    "[com.pichincha]": INFO
+    "[org.springframework]": WARN
+    "[org.hibernate]": WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  file:
+    name: /app/logs/application.log

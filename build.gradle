@@ -1,0 +1,128 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+    id 'jacoco'
+    id 'java'
+    id 'org.springframework.boot' version '3.5.6'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.openapi.generator' version '7.15.0'
+}
+
+def packageName = "com.pichincha.spfmsaclientecoreservice"
+
+springBoot {
+    mainClass = "${packageName}.OptimusApplication"
+}
+
+
+group = "com.pichincha.spfmsaclientecoreservice"
+version = "0.0.1"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"
+    }
+}
+
+
+dependencies {
+    // === CORE ANNOTATIONS ===
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // === MAPSTRUCT - Entity to DTO Mapping ===
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+
+    // === SPRING BOOT STARTERS ===
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'      // Health checks, metrics
+    implementation 'org.springframework.boot:spring-boot-starter-validation'    // @Valid, @NotNull annotations
+    implementation 'org.springframework.boot:spring-boot-starter-web'           // REST Controllers
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'      // JPA Repositories
+
+    // === OPENAPI / SWAGGER ===
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.22'             // @Schema, @Operation
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.6'          // JsonNullable support
+
+    // === DATABASE ===
+    implementation 'org.postgresql:postgresql:42.7.3'                           // PostgreSQL (Production)
+    runtimeOnly 'com.h2database:h2'                                             // H2 (Development/Testing)
+
+    // === PDF GENERATION ===
+    implementation 'net.sf.jasperreports:jasperreports:6.21.0'                 // PdfReportServiceImpl
+
+    // === TESTING ===
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine"
+}
+
+
+
+
+tasks.register('optimusCreateUnitTest', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "com.pichincha.mcptest.core.ProcessMain"
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$rootDir/src/main/resources/openapi.yaml"
+    outputDir = "$buildDir/generated"
+    apiPackage = "${packageName}.api"
+    modelPackage = "${packageName}.model"
+    configOptions = [
+            interfaceOnly: "true",
+            useSpringBoot3: "true",
+            useTags: "true"
+    ]
+}
+
+compileJava {
+    dependsOn tasks.openApiGenerate
+    options.compilerArgs += [
+            "-Amapstruct.suppressGeneratorTimestamp=true",
+            "-Amapstruct.suppressGeneratorVersionInfoComment=true",
+            "-Amapstruct.verbose=true",
+            "-Amapstruct.defaultComponentModel=spring"
+    ]
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java", "$buildDir/generated/src/main/java"]
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        xml.destination file("$buildDir/jacoco/test.xml")
+        html.destination file("$buildDir/jacoco/index.html")
+        html.required = true
+        csv.required = true
+    }
+}

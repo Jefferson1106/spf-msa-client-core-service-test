@@ -1,0 +1,563 @@
+openapi: 3.0.3
+info:
+  title: Bank Core Service API
+  description: Microservice for managing clients, bank accounts and transactions
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: api-support@pichincha.com
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/spf-msa-client-core-service'
+    description: url local
+  - url: 'https://dev-api.pichincha.com/spf-msa-client-core-service'
+    description: url developer server
+
+paths:
+  /clients:
+    post:
+      tags:
+        - clients
+      summary: Create client
+      description: Create a new client
+      operationId: createClient
+      requestBody:
+        description: Create a new client
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientDTO'
+        '405':
+          description: Validation exception
+    get:
+      tags:
+        - clients
+      summary: Get all clients
+      operationId: getAllClients
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientDTO'
+        '400':
+          description: Invalid tag value
+
+  /clients/{clientId}:
+    get:
+      tags:
+        - clients
+      summary: Find client by ID
+      description: Find client by ID
+      operationId: findClientById
+      parameters:
+        - name: clientId
+          in: path
+          description: Client ID to find
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientDTO'
+        '400':
+          description: Invalid status value
+    put:
+      tags:
+        - clients
+      summary: Update client
+      description: Update an existing client
+      operationId: updateClient
+      parameters:
+        - name: clientId
+          in: path
+          description: Client ID to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existing client
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientDTO'
+        '400':
+          description: Invalid value
+        '404':
+          description: Client not found
+    delete:
+      tags:
+        - clients
+      summary: Delete client
+      description: Delete a client
+      operationId: deleteClient
+      parameters:
+        - name: clientId
+          in: path
+          description: Client ID to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid value
+        '404':
+          description: Client not found
+
+  /accounts:
+    post:
+      tags:
+        - accounts
+      summary: Create account
+      description: Create bank account
+      operationId: createAccount
+      requestBody:
+        description: Create bank account
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        '405':
+          description: Validation exception
+    get:
+      tags:
+        - accounts
+      summary: Get all accounts
+      operationId: getAllAccounts
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountDTO'
+        '400':
+          description: Invalid value
+
+  /accounts/{accountId}:
+    get:
+      tags:
+        - accounts
+      summary: Find account by ID
+      operationId: findAccountById
+      parameters:
+        - name: accountId
+          in: path
+          description: Account ID to find
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        '404':
+          description: Account not found
+    put:
+      tags:
+        - accounts
+      summary: Update account
+      operationId: updateAccount
+      parameters:
+        - name: accountId
+          in: path
+          description: Account ID to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update account
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        '404':
+          description: Account not found
+    delete:
+      tags:
+        - accounts
+      summary: Delete account
+      operationId: deleteAccount
+      parameters:
+        - name: accountId
+          in: path
+          description: Account ID to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Account not found
+
+  /transactions:
+    post:
+      tags:
+        - transactions
+      summary: Create transaction
+      description: Create bank transaction (withdrawal or deposit)
+      operationId: createTransaction
+      requestBody:
+        description: Create bank transaction
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDTO'
+        '400':
+          description: Insufficient balance
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Saldo no disponible"
+        '405':
+          description: Validation exception
+    get:
+      tags:
+        - transactions
+      summary: Get all transactions
+      operationId: getAllTransactions
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionDTO'
+        '400':
+          description: Invalid value
+
+  /transactions/{transactionId}:
+    get:
+      tags:
+        - transactions
+      summary: Find transaction by ID
+      operationId: findTransactionById
+      parameters:
+        - name: transactionId
+          in: path
+          description: Transaction ID to find
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDTO'
+        '404':
+          description: Transaction not found
+    put:
+      tags:
+        - transactions
+      summary: Update transaction
+      operationId: updateTransaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: Transaction ID to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update transaction
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionDTO'
+        '404':
+          description: Transaction not found
+    delete:
+      tags:
+        - transactions
+      summary: Delete transaction
+      operationId: deleteTransaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: Transaction ID to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Transaction not found
+
+  /reports:
+    get:
+      tags:
+        - reports
+      summary: Generate account statement
+      description: Generate account statement report
+      operationId: generateAccountStatement
+      parameters:
+        - name: clientId
+          in: query
+          description: Client ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: startDate
+          in: query
+          description: Start date
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReportDTO'
+        '400':
+          description: Invalid value
+
+  /reports/pdf:
+    get:
+      tags:
+        - reports
+      summary: Generate account statement with PDF
+      description: Generate account statement report in JSON and PDF (base64) format
+      operationId: generateAccountStatementWithPdf
+      parameters:
+        - name: clientId
+          in: query
+          description: Client ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: startDate
+          in: query
+          description: Start date
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportResponseDTO'
+        '400':
+          description: Invalid value
+
+components:
+  schemas:
+    ClientDTO:
+      type: object
+      properties:
+        clientId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        gender:
+          type: string
+        age:
+          type: integer
+        identification:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        status:
+          type: boolean
+
+    AccountDTO:
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        accountNumber:
+          type: string
+        accountType:
+          type: string
+          enum:
+            - SAVINGS
+            - CHECKING
+        initialBalance:
+          type: number
+          format: double
+        status:
+          type: boolean
+        clientId:
+          type: integer
+          format: int64
+        client:
+          $ref: '#/components/schemas/ClientDTO'
+
+    TransactionDTO:
+      type: object
+      properties:
+        transactionId:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date-time
+        transactionType:
+          type: string
+          enum:
+            - WITHDRAWAL
+            - DEPOSIT
+        amount:
+          type: number
+          format: double
+        balance:
+          type: number
+          format: double
+        accountId:
+          type: integer
+          format: int64
+        account:
+          $ref: '#/components/schemas/AccountDTO'
+
+    ReportDTO:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        client:
+          type: string
+        accountNumber:
+          type: string
+        type:
+          type: string
+        initialBalance:
+          type: number
+          format: double
+        status:
+          type: boolean
+        movement:
+          type: number
+          format: double
+        availableBalance:
+          type: number
+          format: double
+        totalDebits:
+          type: number
+          format: double
+          description: Total of all debits in the period
+        totalCredits:
+          type: number
+          format: double
+          description: Total of all credits in the period
+
+    ReportResponseDTO:
+      type: object
+      properties:
+        reportJson:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportDTO'
+          description: Report data in JSON format
+        pdfBase64:
+          type: string
+          description: PDF report encoded in base64 format
