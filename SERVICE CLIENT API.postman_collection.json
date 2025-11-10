@@ -1,0 +1,493 @@
+{
+	"info": {
+		"_postman_id": "52ac1c40-537a-4355-8c5d-fbdfe70689f4",
+		"name": "SERVICE CLIENT API",
+		"description": "Colección de endpoints para el backend bancario - URLs corregidas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18413850",
+		"_collection_link": "https://universal-astronaut-901936.postman.co/workspace/Team-Workspace~192d0a2f-a07a-4aa3-8d82-92c182c8bd2a/collection/18413850-52ac1c40-537a-4355-8c5d-fbdfe70689f4?action=share&source=collection_link&creator=18413850"
+	},
+	"item": [
+		{
+			"name": "CLIENTS",
+			"item": [
+				{
+					"name": "Create Client",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Perez\",\n  \"gender\": \"M\",\n  \"age\": 30,\n  \"identification\": \"1234567890\",\n  \"address\": \"Calle 123\",\n  \"phone\": \"0999999999\",\n  \"password\": \"secreto\",\n  \"status\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Clients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Client by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/clients/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"clients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Client",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Perez Actualizado\",\n  \"gender\": \"M\",\n  \"age\": 31,\n  \"identification\": \"1234567890\",\n  \"address\": \"Calle 456\",\n  \"phone\": \"0999999998\",\n  \"password\": \"nuevaclave\",\n  \"status\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/clients/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"clients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Client",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/clients/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"clients",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ACCOUNTS",
+			"item": [
+				{
+					"name": "Create Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accountNumber\": \"10001\",\n  \"accountType\": \"SAVINGS\",\n  \"initialBalance\": 1000.00,\n  \"status\": true,\n  \"clientId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Account by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/accounts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"accounts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accountNumber\": \"10001\",\n  \"accountType\": \"CHECKING\",\n  \"initialBalance\": 1500.00,\n  \"status\": true,\n  \"clientId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/accounts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"accounts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/accounts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"accounts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TRANSACTIONS",
+			"item": [
+				{
+					"name": "Create Transaction (Deposit)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"2025-10-19T10:00:00-05:00\",\n  \"transactionType\": \"DEPOSIT\",\n  \"amount\": 500.00,\n  \"accountId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Transaction (Withdrawal)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"2025-10-19T11:00:00-05:00\",\n  \"transactionType\": \"WITHDRAWAL\",\n  \"amount\": -200.00,\n  \"accountId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/transactions/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"transactions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Transaction",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"2025-10-19T12:00:00-05:00\",\n  \"transactionType\": \"DEPOSIT\",\n  \"amount\": 600.00,\n  \"accountId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/transactions/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"transactions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Transaction",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/transactions/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"transactions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "REPORTS",
+			"item": [
+				{
+					"name": "Generate Account Statement (JSON only)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/reports?clientId=1&startDate=2025-10-01&endDate=2025-10-31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "1"
+								},
+								{
+									"key": "startDate",
+									"value": "2025-10-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-10-31"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Account Statement with PDF (JSON + PDF base64)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9090/spf-msa-apex-core-service/reports/pdf?clientId=1&startDate=2025-10-01&endDate=2025-10-31",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"spf-msa-apex-core-service",
+								"reports",
+								"pdf"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "1"
+								},
+								{
+									"key": "startDate",
+									"value": "2025-10-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-10-31"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

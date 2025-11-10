@@ -1,0 +1,106 @@
+CREATE TABLE IF NOT EXISTS client (
+    client_id       BIGSERIAL PRIMARY KEY,
+    name            VARCHAR(100) NOT NULL,
+    gender          VARCHAR(10),
+    age             INTEGER,
+    identification  VARCHAR(20) UNIQUE NOT NULL,
+    address         VARCHAR(200),
+    phone           VARCHAR(20),
+    password        VARCHAR(100),
+    status          BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS account (
+    account_id      BIGSERIAL PRIMARY KEY,
+    account_number  VARCHAR(20) UNIQUE NOT NULL,
+    account_type    VARCHAR(20),
+    initial_balance DOUBLE PRECISION,
+    status          BOOLEAN,
+    client_id       BIGINT,
+    FOREIGN KEY (client_id) REFERENCES client(client_id)
+);
+
+CREATE TABLE IF NOT EXISTS transaction (
+    transaction_id  BIGSERIAL PRIMARY KEY,
+    date            TIMESTAMP,
+    transaction_type VARCHAR(20),
+    amount          DOUBLE PRECISION,
+    balance         DOUBLE PRECISION,
+    account_id      BIGINT,
+    FOREIGN KEY (account_id) REFERENCES account(account_id)
+);
+
+-- =====================================================================
+-- CLIENTES
+-- =====================================================================
+INSERT INTO client (name, gender, age, identification, address, phone, password, status) VALUES
+('Jose Lema', 'M', 35, '1725485963', 'Otavalo sn y principal', '098254785', '1234', true),
+('Marianela Montalvo', 'F', 28, '1745896523', 'Amazonas y NNUU', '097548965', '5678', true),
+('Juan Osorio', 'M', 32, '1798745896', '13 junio y Equinoccial', '098874587', '1245', true),
+('Carlos Zamora', 'M', 40, '1721112233', 'Quito, La Floresta', '0991001001', 'abc1', true),
+('Lucía Andrade', 'F', 29, '1742223344', 'Guayaquil, Alborada', '0982002002', 'abc2', true),
+('Diego Herrera', 'M', 45, '1753334455', 'Cuenca, Totoracocha', '0973003003', 'abc3', true),
+('Verónica López', 'F', 36, '1764445566', 'Quito, El Inca', '0964004004', 'abc4', true),
+('Andrés Paredes', 'M', 31, '1775556677', 'Ambato, Huachi', '0955005005', 'abc5', true),
+('Gabriela Torres', 'F', 27, '1786667788', 'Riobamba, Centro', '0946006006', 'abc6', true),
+('Felipe Villacís', 'M', 38, '1797778899', 'Latacunga, El Ejido', '0937007007', 'abc7', true),
+('Patricia Molina', 'F', 34, '1718889900', 'Ibarra, Caranqui', '0928008008', 'abc8', true),
+('Esteban Jaramillo', 'M', 30, '1729990011', 'Quito, Kennedy', '0919009009', 'abc9', true),
+('Carolina Suárez', 'F', 25, '1730001122', 'Guayaquil, Urdesa', '0901010101', 'abc10', true);
+
+-- =====================================================================
+-- CUENTAS
+-- =====================================================================
+INSERT INTO account (account_number, account_type, initial_balance, status, client_id) VALUES
+('478758', 'SAVINGS', 2000.00, true, 1),
+('225487', 'CHECKING', 100.00, true, 2),
+('495878', 'SAVINGS', 0.00, true, 3),
+('496825', 'SAVINGS', 540.00, true, 2),
+('585545', 'CHECKING', 1000.00, true, 1),
+('600001', 'SAVINGS', 800.00, true, 4),
+('600002', 'CHECKING', 250.00, true, 5),
+('600003', 'SAVINGS', 450.00, true, 6),
+('600004', 'CHECKING', 900.00, true, 7),
+('600005', 'SAVINGS', 1200.00, true, 8),
+('600006', 'SAVINGS', 1300.00, true, 9),
+('600007', 'CHECKING', 650.00, true, 10),
+('600008', 'SAVINGS', 500.00, true, 11),
+('600009', 'CHECKING', 900.00, true, 12),
+('600010', 'SAVINGS', 400.00, true, 13);
+
+-- =====================================================================
+-- TRANSACCIONES
+-- =====================================================================
+INSERT INTO transaction (date, transaction_type, amount, balance, account_id) VALUES
+('2022-02-08 10:00:00', 'WITHDRAWAL', -575.00, 1425.00, 1),
+('2022-02-10 14:30:00', 'DEPOSIT', 600.00, 700.00, 2),
+('2022-02-09 09:15:00', 'DEPOSIT', 150.00, 150.00, 3),
+('2022-02-08 11:45:00', 'WITHDRAWAL', -540.00, 0.00, 4),
+('2022-02-11 09:00:00', 'DEPOSIT', 300.00, 1725.00, 1),
+('2022-02-12 10:30:00', 'WITHDRAWAL', -200.00, 1525.00, 1),
+('2022-02-13 11:00:00', 'WITHDRAWAL', -100.00, 600.00, 2),
+('2022-02-14 15:45:00', 'DEPOSIT', 50.00, 650.00, 2),
+('2022-02-15 08:20:00', 'WITHDRAWAL', -30.00, 120.00, 3),
+('2022-02-20 10:00:00', 'DEPOSIT', 80.00, 200.00, 3),
+('2022-02-16 12:10:00', 'DEPOSIT', 1000.00, 1000.00, 4),
+('2022-02-17 09:50:00', 'WITHDRAWAL', -200.00, 800.00, 4),
+('2022-02-18 14:05:00', 'DEPOSIT', 250.00, 1250.00, 5),
+('2022-02-19 16:25:00', 'WITHDRAWAL', -400.00, 850.00, 5),
+
+-- Nuevas transacciones para los clientes nuevos
+('2022-03-01 10:10:00', 'DEPOSIT', 300.00, 1100.00, 6),
+('2022-03-02 09:45:00', 'WITHDRAWAL', -100.00, 1000.00, 6),
+('2022-03-03 13:20:00', 'DEPOSIT', 500.00, 750.00, 7),
+('2022-03-04 15:50:00', 'WITHDRAWAL', -200.00, 550.00, 7),
+('2022-03-05 11:00:00', 'DEPOSIT', 150.00, 600.00, 8),
+('2022-03-06 09:10:00', 'WITHDRAWAL', -50.00, 550.00, 8),
+('2022-03-07 08:30:00', 'DEPOSIT', 700.00, 1600.00, 9),
+('2022-03-08 16:40:00', 'WITHDRAWAL', -300.00, 1300.00, 9),
+('2022-03-09 12:15:00', 'DEPOSIT', 400.00, 1050.00, 10),
+('2022-03-10 14:00:00', 'WITHDRAWAL', -150.00, 900.00, 10),
+('2022-03-11 10:25:00', 'DEPOSIT', 200.00, 700.00, 11),
+('2022-03-12 09:50:00', 'WITHDRAWAL', -100.00, 600.00, 11),
+('2022-03-13 11:15:00', 'DEPOSIT', 300.00, 1200.00, 12),
+('2022-03-14 15:45:00', 'WITHDRAWAL', -250.00, 950.00, 12),
+('2022-03-15 10:35:00', 'DEPOSIT', 400.00, 900.00, 13),
+('2022-03-16 09:20:00', 'WITHDRAWAL', -100.00, 800.00, 13);
